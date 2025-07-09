@@ -6,7 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 // ⏱️ CONFIGURATION
 const MIN_AGE_DAYS = 3;
 const PORT = 3000;
-const SELF_PING_URL = "https://your-bot-name.onrender.com/"; // <--- Replace this with your Render.com URL
+const SELF_PING_URL = "https://babyblocker.onrender.com/"; // <--- Replace this with your Render.com URL
 
 // 🌐 EXPRESS SERVER FOR UPTIME
 const app = express();
