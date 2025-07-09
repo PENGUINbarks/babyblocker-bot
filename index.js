@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 // ✅ CONFIG
 const MIN_AGE_DAYS = 3;
 const PORT = 3000;
-const SELF_PING_URL = "https://your-bot-name.onrender.com/"; // <- Replace this with your Render URL
+const SELF_PING_URL = "https://babyblocker.onrender.com/"; // <- Replace this with your Render URL
 
 // 🌐 EXPRESS SERVER
 const app = express();
