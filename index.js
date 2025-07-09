@@ -8,9 +8,13 @@ const PORT = 3000;
 const SELF_PING_URL = "https://babyblocker.onrender.com/"; // <- Replace this with your Render URL
 
 // 🌐 EXPRESS SERVER
+const express = require("express");
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.get("/", (req, res) => res.send("✅ BabyBlocker is alive"));
-app.listen(PORT, () => console.log("🌍 Web server running!"));
+
+app.listen(PORT, () => console.log("🌍 Web server running on port", PORT));
 
 // 🔁 SELF-PING to prevent sleeping
 setInterval(() => {
