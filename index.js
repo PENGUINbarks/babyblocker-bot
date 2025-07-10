@@ -1,25 +1,26 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const express = require('express');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+import { Client, GatewayIntentBits } from 'discord.js';
+import express from 'express';
+import fetch from 'node-fetch';
 
 // ✅ CONFIG
 const MIN_AGE_DAYS = 3;
 const PORT = process.env.PORT || 3000;
-const SELF_PING_URL = "https://babyblocker.onrender.com/"; // <- Replace with your actual Render URL
+const SELF_PING_URL = "https://babyblocker-bot-1.onrender.com/"; // REPLACE WITH YOUR FINAL RENDER URL
 
 // 🌐 EXPRESS SERVER
 const app = express();
-
 app.get("/", (req, res) => res.send("✅ BabyBlocker is alive"));
-
 app.listen(PORT, () => console.log("🌍 Web server running on port", PORT));
 
-// 🔁 SELF-PING to prevent sleeping
-setInterval(() => {
+// 🔁 SELF-PING to prevent Render sleeping
+setInterval(async () => {
   console.log("📡 Attempting to ping...");
-  fetch(SELF_PING_URL)
-    .then(() => console.log("🔁 Self-pinged ✅"))
-    .catch(err => console.error("❌ Ping error:", err));
+  try {
+    await fetch(SELF_PING_URL);
+    console.log("🔁 Self-pinged ✅");
+  } catch (err) {
+    console.error("❌ Ping error:", err.message);
+  }
 }, 270000); // every 4.5 minutes
 
 // 🤖 DISCORD BOT SETUP
@@ -49,7 +50,7 @@ client.on('guildMemberAdd', async member => {
         await member.roles.add(memberRole);
         await member.send("✅ Your account has been verified and you have been moved to the 'Member' role.");
       } else {
-        await member.send(`❌ Your account is only ${rounded} days old. You need to wait until your account is at least ${MIN_AGE_DAYS} days old to access the server.`);
+        await member.send(`❌ Your account is only ${rounded} days old. You must wait at least ${MIN_AGE_DAYS} days to access the server.`);
       }
     } catch (err) {
       console.error("❌ Error handling member join:", err);
@@ -59,5 +60,10 @@ client.on('guildMemberAdd', async member => {
   }
 });
 
-// 🚀 LOGIN TO DISCORD
+// 💥 Catch crashes
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🔥 Unhandled Rejection:', reason);
+});
+
+// 🔐 LOGIN TO DISCORD
 client.login(process.env.BOT_TOKEN);
