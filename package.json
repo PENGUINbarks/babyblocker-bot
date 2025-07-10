@@ -1,7 +1,9 @@
 {
   "name": "babyblocker",
   "version": "1.0.0",
+  "description": "Discord bot that blocks new accounts",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
